@@ -1,0 +1,26 @@
+doctype html
+html[lang="en"]
+  head
+    meta[charset="utf-8"]
+    meta[name="viewport" content="width=device-width, initial-scale=1.0"]
+    title
+      = content_for?(:title) ? yield(:title) : "API-TRAIN"
+    = stylesheet_link_tag    "application"
+    = javascript_include_tag "application", 'data-turbolinks-track' => true
+    = csrf_meta_tags
+  body
+    #content
+      ul.breadcrumbs
+        - if user_signed_in?
+          li
+            = link_to "deconnexion", destroy_user_session_path, method: :delete
+          li
+            = link_to "#{current_user.email}", customers_path
+          li.current
+            = link_to "add contact",  new_customer_path
+        - else
+          li
+            = link_to "connexion", new_user_session_path
+          li
+            = link_to "s'inscrire", user_session_path
+      = yield
